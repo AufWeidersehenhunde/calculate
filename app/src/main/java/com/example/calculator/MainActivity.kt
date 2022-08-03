@@ -110,63 +110,68 @@ firstnum()
 
 
             binding.bplus.setOnClickListener {
-
-                if (binding.pt1.text.toString() == ""){
+                if (binding.pt1.text.isNullOrEmpty()){
                     Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
 
                 }
-                if (binding.pt2.text.toString() == ""){
+
+                else if (binding.pt2.text.isNullOrEmpty()){
                     Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
-                   
                 }
-                val io = binding.pt1.text.toString()
-                val oi = binding.pt2.text.toString()
-                val cio = io.toDouble()+oi.toDouble()
-                binding.pt1.setText("$cio")
-                binding.pt2.setText("")
+                else
+                {val io = binding.pt1.text.toString()
+                    val oi = binding.pt2.text.toString()
+                    val cio = io.toDouble()+oi.toDouble()
+                    binding.pt1.setText("$cio")
+                    binding.pt2.setText("")}
+
 
 
             }
             binding.bminus.setOnClickListener {
+
+                if (binding.pt1.text.isNullOrEmpty()){
+                    Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
+                }
+                else if (binding.pt2.text.isNullOrEmpty()){
+                    Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
+                }
+                else{
                 val io = binding.pt1.text.toString()
                 val oi = binding.pt2.text.toString()
-                if (binding.pt1.text.toString() == ""){
-                    Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
-                }
-                if (binding.pt2.text.toString() == ""){
-                    Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
-                }
                 val lio = io.toDouble()-oi.toDouble()
                 binding.pt1.setText("$lio")
-                binding.pt2.setText("")
+                binding.pt2.setText("")}
             }
             binding.bdevide.setOnClickListener {
+                if (binding.pt1.text.isNullOrEmpty()){
+                    Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
+                }
+                else if (binding.pt2.text.isNullOrEmpty()){
+                    Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
+                }
+                else{
                 val io = binding.pt1.text.toString()
                 val oi = binding.pt2.text.toString()
-                if (binding.pt1.text.toString() == ""){
-                    Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
-                }
-                if (binding.pt2.text.toString() == ""){
-                    Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
-                }
-
                 val kio = io.toDouble()/oi.toDouble()
                 binding.pt1.setText("$kio")
-                binding.pt2.setText("")
+                binding.pt2.setText("")}
 
             }
             binding.bumnozh.setOnClickListener {
-                val io = binding.pt1.text.toString()
-                val oi = binding.pt2.text.toString()
-                if (binding.pt1.text.toString() == ""){
+
+                if (binding.pt1.text.isNullOrEmpty()){
                     Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
                 }
-                if (binding.pt2.text.toString() == ""){
+                else if (binding.pt2.text.isNullOrEmpty()){
                     Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
                 }
-                val gio = io.toDouble()*oi.toDouble()
+                else{
+                    val io = binding.pt1.text.toString()
+                    val oi = binding.pt2.text.toString()
+                    val gio = io.toDouble()*oi.toDouble()
                 binding.pt1.setText("$gio")
-                binding.pt2.setText("")
+                binding.pt2.setText("")}
             }
             binding.bdelete.setOnClickListener {
                 binding.pt1.setText("")
