@@ -64,7 +64,7 @@ import net.objecthunter.exp4j.ExpressionBuilder
           firstnum()
 
           var operator = ""
-          
+
           binding.bplus.setOnClickListener {
               if (binding.pt1.text.isNullOrEmpty()) {
                   Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
