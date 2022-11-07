@@ -3,18 +3,16 @@ package com.example.calculator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.example.calculator.databinding.ActivityMainBinding
-import net.objecthunter.exp4j.ExpressionBuilder
 
-  class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
       private var io: Double = 0.0
       private lateinit var firstnum: String
       private var operator = ""
-
+      private val viewModel: ViewModel by viewModels()
 
 
       private lateinit var binding: ActivityMainBinding
@@ -23,7 +21,7 @@ import net.objecthunter.exp4j.ExpressionBuilder
           binding = ActivityMainBinding.inflate(layoutInflater)
           setContentView(binding.root)
           val rsrIntent = Intent(this, nazist::class.java)
-
+          val textin = binding.pt1.text
 
           fun firstnum() {
 
@@ -62,95 +60,46 @@ import net.objecthunter.exp4j.ExpressionBuilder
               }
           }
           firstnum()
+          val ptext = binding.pt1.text.toString()
 
-          var operator = ""
+
+          viewModel.planetext.observe(this) {
+              binding.pt1.setText(it)
+          }
 
           binding.bplus.setOnClickListener {
-              if (binding.pt1.text.isNullOrEmpty()) {
-                  Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
-
-              } else {
-                  operator = "1"
-                  val kto = binding.pt1.text.toString()
-                  io = kto.toDouble()
-                  binding.pt1.setText("")
-                      if(binding.pt1.text.toString()=="1488.0") {
-                          startActivity(rsrIntent)
-                      }
-              }
+              viewModel.plus(ptext)
+              binding.pt1.setText("")
           }
 
           binding.bminus.setOnClickListener {
-                operator = "2"
-              if (binding.pt1.text.isNullOrEmpty()) {
-                  Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
-              } else {
-                  val kto = binding.pt1.text.toString()
-                  io = kto.toDouble()
-                  binding.pt1.setText("")
+              viewModel.minus(ptext)
+              binding.pt1.setText("")
 
-                      if(binding.pt1.text.toString()=="1488.0") {
-                          startActivity(rsrIntent)
-                      }
-              }
           }
 
           binding.bdevide.setOnClickListener {
-              operator = "3"
-              if (binding.pt1.text.isNullOrEmpty()) {
-                  Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
-              }
-              else {
-                  val kto = binding.pt1.text.toString()
-                  io = kto.toDouble()
-                  binding.pt1.setText("")
-              }
-                          if(binding.pt1.text.toString()=="1488.0") {
-                              startActivity(rsrIntent)
-                          }
+              viewModel.devide(ptext)
+              binding.pt1.setText("")
+
 
               }
 
 
           binding.bumnozh.setOnClickListener {
-                operator = "4"
-              if (binding.pt1.text.isNullOrEmpty()) {
-                  Toast.makeText(applicationContext, "Lox", Toast.LENGTH_SHORT).show()
-              } else {
-                  val kto = binding.pt1.text.toString()
-                  io = kto.toDouble()
-                  binding.pt1.setText("")
-              }
+              viewModel.umnozh(ptext)
+
+              binding.pt1.setText("")
           }
 
       binding.bravno.setOnClickListener{
-          val oi = binding.pt1.text.toString()
-          if (operator=="3" && binding.pt1.text.toString()=="0" &&  io != "0".toDouble()){
-                         Toast.makeText(applicationContext, "Нельзя так брат", Toast.LENGTH_LONG).show()
-                         binding.pt1.setText("")
-                     }
-          else if  (operator=="3" && (binding.pt1.text.toString() == "0") && (io == "0".toDouble())){
-              binding.pt1.setText("1")
-          }
+          viewModel.ravno(ptext)
 
-              else {
-              val end = when (operator) {
-                  "1" -> (io + oi.toDouble())
-                  "2" -> (io - oi.toDouble())
-                  "3" -> (io / oi.toDouble())
-                  "4" -> (io * oi.toDouble())
-                  else -> "wtf"
-              }
-              binding.pt1.setText("$end")
-              if (binding.pt1.text.toString() == "1488.0") {
-                  startActivity(rsrIntent)
-              }
-          }
 
           }
 
           binding.bdelete.setOnClickListener {
-              binding.pt1.setText("")
+              viewModel.delete(ptext)
           }
       }
       }
