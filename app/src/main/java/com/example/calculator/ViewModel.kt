@@ -20,11 +20,11 @@ class ViewModel : ViewModel() {
     var planetext: LiveData<String> = _planetext
     var operator = ""
     fun firstnim(){
-        val expi = _planetext.value
+        val expi = exp.value
 
     }
     fun secondnum(){
-        val answeri = _planetext.value
+        val answeri = answer.value
 
     }
 
@@ -67,7 +67,7 @@ class ViewModel : ViewModel() {
     }
     fun ravno(check: String){
         secondnum()
-        if (operator=="3" && _planetext.value =="0" &&  exp.value != "0".toDouble()){
+        if (operator=="3" && _planetext.value =="0" &&  exp!= "0".toDouble()){
             _planetext.value = ""
         }
         else if  (operator=="3" && _planetext.value == ""  && exp == "0".toDouble()){
@@ -76,7 +76,7 @@ class ViewModel : ViewModel() {
 
         else {
             val end = when (operator) {
-                "1" -> (exp + answer.toDouble())
+                "1" -> (expi + answeri.toDouble())
                 "2" -> (exp - answer.toDouble())
                 "3" -> (exp / answer.toDouble())
                 "4" -> (exp * answer.toDouble())
