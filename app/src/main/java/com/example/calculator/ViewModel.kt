@@ -1,92 +1,93 @@
 package com.example.calculator
 
-
-import android.content.Intent
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.CreationExtras
 
 class ViewModel : ViewModel() {
-    val exp = MutableLiveData<String>()
-    val answer = MutableLiveData<String>()
+    private var operator: Operator? = null
+    private var secondNumber: Double = 0.0
+    private var firstNumber: Double = 0.0
 
-    init {
-        exp.value = "0.0"
-        answer.value = "0.0"
-    }
-    private var _planetext = MutableLiveData<String>()
+    private var _planetext = MutableLiveData<String>() // state flow
     var planetext: LiveData<String> = _planetext
-    var operator = ""
-    fun firstnim(){
-        val expi = exp.value
 
+    enum class Operator {
+        Plus, Minus, Devide, Umnozh
     }
-    fun secondnum(){
-        val answeri = answer.value
-
-    }
-
 
     fun devide(check: String) {
-
-        if (!check.isEmpty()) {
-            operator = "3"
-            firstnim()
-        }
-
-    }
-    fun minus(check: String){
-
-        if (check.isEmpty()) {
+        if (check.isNotEmpty()) {
+            operator = Operator.Devide
+            firstNumber = check.toDouble()
+            _planetext.value = ""
         } else {
-            operator = "2"
-            firstnim()
-
-            if(_planetext.value=="1488.0") {
-            }
+            _planetext.value = "Ошибка!!! Введите число"
         }
     }
-    fun umnozh(check: String){
 
+    fun minus(check: String) {
         if (check.isEmpty()) {
+            _planetext.value = "101"
         } else {
-            operator = "4"
-            firstnim()
-        }
-    }
-    fun plus(check: String){
-        if (check.isEmpty()) {
-        } else {
-            operator = "1"
-            firstnim()
-
-
-        }
-    }
-    fun ravno(check: String){
-        secondnum()
-        if (operator=="3" && _planetext.value =="0" &&  exp!= "0".toDouble()){
+            operator = Operator.Minus
+            firstNumber += check.toDouble()
             _planetext.value = ""
         }
-        else if  (operator=="3" && _planetext.value == ""  && exp == "0".toDouble()){
-            _planetext.value = "1"
-        }
+    }
 
-        else {
-            val end = when (operator) {
-                "1" -> (expi + answeri.toDouble())
-                "2" -> (exp - answer.toDouble())
-                "3" -> (exp / answer.toDouble())
-                "4" -> (exp * answer.toDouble())
-                else -> "wtf"
+    fun umnozh(check: String) {
+        if (check.isEmpty()) {
+            _planetext.value = "101"
+        } else {
+            operator = Operator.Umnozh
+            firstNumber += check.toDouble()
+            _planetext.value = ""
+        }
+    }
+
+    fun plus(check: String) {
+        if (check.isEmpty()) {
+            _planetext.value = "101"
+        } else {
+            operator = Operator.Plus
+            firstNumber += check.toDouble()
+            _planetext.value = ""
+        }
+    }
+
+    fun equals(secondNumberForActivity: String) {
+        if (secondNumberForActivity.isEmpty()) {
+            _planetext.value = "kek"
+        } else {
+            secondNumber = secondNumberForActivity.toDouble()
+            if (operator == Operator.Devide && secondNumber == 0.0 && firstNumber != 0.0) {
+                _planetext.value = "eblan4ik"
+            } else if (operator == Operator.Devide && secondNumber == null && firstNumber == 0.0) {
+                _planetext.value = "vse normalno brat sha budem dratsa4"
+            } else if (operator == Operator.Devide && secondNumber == 0.0 && firstNumber == 0.0) {
+                _planetext.value = "vse normalno brat sha budem dratsa"
+            } else {
+                secondNumber = secondNumberForActivity.toDouble()
+                val end = when (operator) {
+                    Operator.Plus -> (firstNumber + secondNumber)
+                    Operator.Minus -> (firstNumber - secondNumber)
+                    Operator.Devide -> (firstNumber / secondNumber)
+                    Operator.Umnozh -> (firstNumber * secondNumber)
+                    else -> "wtf"
+                }
+                _planetext.value = "$end"
+
             }
-            _planetext.value = "$end"
 
         }
     }
-    fun delete(check: String){
+
+    fun delete() {
         _planetext.value = ""
+        firstNumber = 0.0
+        secondNumber = 0.0
     }
 }
