@@ -4,15 +4,19 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 class ViewModel : ViewModel() {
     private var operator: Operator? = null
     private var secondNumber: Double = 0.0
     private var firstNumber: Double = 0.0
 
-    private var _planetext = MutableLiveData<String>() // state flow
-    var planetext: LiveData<String> = _planetext
+    private var _planetext = MutableStateFlow<String?>(null)
+    var planetext: StateFlow<String?> = _planetext
 
     enum class Operator {
         Plus, Minus, Devide, Umnozh
@@ -22,6 +26,7 @@ class ViewModel : ViewModel() {
         if (check.isNotEmpty()) {
             operator = Operator.Devide
             firstNumber = check.toDouble()
+            secondNumber = 0.0
             _planetext.value = ""
         } else {
             _planetext.value = "Ошибка!!! Введите число"
@@ -33,7 +38,8 @@ class ViewModel : ViewModel() {
             _planetext.value = "101"
         } else {
             operator = Operator.Minus
-            firstNumber += check.toDouble()
+            firstNumber = check.toDouble()
+            secondNumber = 0.0
             _planetext.value = ""
         }
     }
@@ -43,7 +49,8 @@ class ViewModel : ViewModel() {
             _planetext.value = "101"
         } else {
             operator = Operator.Umnozh
-            firstNumber += check.toDouble()
+            firstNumber = check.toDouble()
+            secondNumber = 0.0
             _planetext.value = ""
         }
     }
@@ -53,7 +60,8 @@ class ViewModel : ViewModel() {
             _planetext.value = "101"
         } else {
             operator = Operator.Plus
-            firstNumber += check.toDouble()
+            firstNumber = check.toDouble()
+            secondNumber = 0.0
             _planetext.value = ""
         }
     }
@@ -87,7 +95,8 @@ class ViewModel : ViewModel() {
 
     fun delete() {
         _planetext.value = ""
-        firstNumber = 0.0
+        _planetext.value = null
         secondNumber = 0.0
+        firstNumber = 0.0
     }
 }
